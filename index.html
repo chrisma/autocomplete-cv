@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>title</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <!-- page content -->
+  </body>
+  <script>
+
+    // &format=xml&diagnostics=false
+
+    var out;
+
+    var query = encodeURIComponent('my name is')
+    var suggest_url = 'http://suggestqueries.google.com/complete/search?output=toolbar&hl=en&q=' + query;
+    var yql = 'http://query.yahooapis.com/v1/public/yql?q=';
+    var url = yql + encodeURIComponent("select * from xml where url='" + suggest_url + "'") + '&format=json';
+    console.log(url);
+    var jqxhr = $.get( url, function(data) {
+      var suggestions = data.query.results.toplevel.CompleteSuggestion;
+      suggestions = suggestions.map(function(e) { return e['suggestion']['data']; });
+      out = suggestions;
+      console.log(suggestions);
+    });
+  </script>
+</html>
