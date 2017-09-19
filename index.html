@@ -5,36 +5,41 @@
     <title>title</title>
     <!-- <link rel="stylesheet" href="style.css"> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+      body { width: 50%; margin: auto; }
+      header { text-align: center; }
+      .autocompleted { font-weight: bold; }
+      h2, h3, h4 { font-weight: normal; }
+    </style>
   </head>
-  <body style="width: 50%; margin: auto;">
-    <!-- page content -->
-    <h1>CV</h1>
-    <p><span class="input"></span>.</p>
-    <p><span class="input"></span>.</p>
-    <p><span class="input"></span>.</p>
-    <p><span class="input"></span>.</p>
+  <body>
+    <header>
+      <h1>CV</h1>
+      <p><span class="start" contenteditable="true">My name is</span> <span class="autocompleted"></span>.</p>
+      <p><span class="start" contenteditable="true">I live in</span> <span class="autocompleted"></span>.</p>
+      <p><span class="start" contenteditable="true">My phone number is</span><span class="autocompleted"></span>.</p>
+      <p><span class="start" contenteditable="true">My email is</span><span class="autocompleted"></span>.</p>
+    </header>
+
+    <h3>Personal information</h3>
+    <p>Date of birth: <span class="start" contenteditable="true">I was born</span><span class="autocompleted"></span>.</p>
+    <p>Marital status: <span class="start" contenteditable="true">I am married to</span><span class="autocompleted"></span>.</p>
+    <p>Nationality: <span class="start" contenteditable="true">My country is</span><span class="autocompleted"></span>.</p>
+    <p>Languages: <span class="start" contenteditable="true">My language is</span><span class="autocompleted"></span>.</p>
+    <p>Sex: <span class="start" contenteditable="true">I identify as</span><span class="autocompleted"></span>.</p>
+
+    <h3>Profile</h3>
+    <p><span class="start" contenteditable="true">I am good at</span><span class="autocompleted"></span>, <span class="start" contenteditable="true">although I can</span><span class="autocompleted"></span></p>
+    <h4>Core Competencies</h4>
+    <p><span class="start" contenteditable="true">I believe that</span><span class="autocompleted"></span>.</p>
+    <h4>Professional Experience</h4>
+    <p><span class="start" contenteditable="true">I once</span><span class="autocompleted"></span>, <span class="start" contenteditable="true">but I am</span><span class="autocompleted"></span>.</p>
+    <h4>Professional Qualifications</h4>
+    <p><span class="start" contenteditable="true">I am trained in</span><span class="autocompleted"></span>, <span class="start" contenteditable="true">and I can</span><span class="autocompleted"></span>.</p>
     <br>
-    <p style="font-weight: bold;">Personal information</p>
-    <p>Date of birth: <span class="input"></span>.</p>
-    <p>Marital status: <span class="input"></span>.</p>
-    <p>Nationality: <span class="input"></span>.</p>
-    <p>Languages: <span class="input"></span>.</p>
-    <p>Sex: <span class="input"></span>.</p>
+    <p>Please hire me. <span class="start" contenteditable="true">I need</span><span class="autocompleted"></span>, so <span class="start" contenteditable="true">I can buy</span><span class="autocompleted"></span>.</p>
     <br>
-    <p style="font-weight: bold;">Profile</p>
-    <p><span class="input"></span>, <span class="input">.</span></p>
-    <p style="font-weight: bold;">Core competencies</p>
-    <p><span class="input"></span>.</p>
-    <p style="font-weight: bold;">Professional Experience</p>
-    <p><span class="input"></span>, <span class="input"></span>.</p>
-    <p style="font-weight: bold;">Professional Qualifications</p>
-    <p><span class="input"></span>, <span class="input"></span>.</p>
-    <br>
-    <br>
-    <p>Please hire me. <span class="input"></span>, so <span class="input"></span></p>
-    <br>
-    <br>
-    <p><span class="input"></span>!</p>
+    <p><span class="start" contenteditable="true">Thank you for</span><span class="autocompleted"></span>! <span class="start" contenteditable="true">I hope that</span><span class="autocompleted"></span>.</p>
   </body>
   <script>
     // https://stackoverflow.com/questions/5102878/google-suggest-api
@@ -48,31 +53,14 @@
     //  ‘http://google.com/complete/search?output=toolbar&q=steven+seagal’
     //)
 
-    var queries = [
-      'My name is ',
-      'I live in ',
-      'My phone number is ',
-      'My email is ',
-      'I was born ',
-      'I am married to ',
-      'My country is ',
-      'My language is ',
-      'I identify as ',
-      'I am good at ',
-      'although I can ',
-      'I believe that ',
-      'I once ',
-      'but I am ',
-      'I am trained in ',
-      'and I can ',
-      'I need ',
-      'I can purchase ',
-      'Thanks for your '];
-    queries = queries.map(function(e) { return encodeURIComponent(e); });
+    starts = $('.start').toArray().map(function(s){
+      var t = s.innerText.endsWith(' ') ? s.innerText : s.innerText + ' ';
+      return encodeURIComponent(t)
+    });
 
     var language = 'en';
     var api_endpoint = 'http://suggestqueries.google.com/complete/search?output=toolbar&hl=' + language + '&q=';
-    var suggest_urls = queries.map(function(q){ return "'" + api_endpoint + q + "'"; });
+    var suggest_urls = starts.map(function(q){ return "'" + api_endpoint + q + "'"; });
 
     var yql_endpoint = 'http://query.yahooapis.com/v1/public/yql?q=';
     var url = yql_endpoint + encodeURIComponent('select * from xml where url in (' + suggest_urls + ')') + '&format=json&diagnostics=false';
@@ -80,10 +68,11 @@
 
     var jqxhr = $.get( url, function(data) {
       var suggestions = data.query.results.toplevel;
-      //suggestions = suggestions.map(function(e) { return e['suggestion']['data']; });
       out = data;
-      $('.input').each(function(i, e){
-        $(e).text(suggestions[i].CompleteSuggestion[0]['suggestion']['data']);
+      $('.start').each(function(i, e){
+        var suggestion = suggestions[i].CompleteSuggestion[0]['suggestion']['data'];
+        var output = suggestion.toLowerCase().replace($(e).text().toLowerCase(), '');
+        $(e).next('.autocompleted').text(output);
       });
       //console.log(suggestions);
     });
