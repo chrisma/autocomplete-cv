@@ -59,10 +59,10 @@
     });
 
     var language = 'en';
-    var api_endpoint = 'http://suggestqueries.google.com/complete/search?output=toolbar&hl=' + language + '&q=';
+    var api_endpoint = 'https://suggestqueries.google.com/complete/search?output=toolbar&hl=' + language + '&q=';
     var suggest_urls = starts.map(function(q){ return "'" + api_endpoint + q + "'"; });
 
-    var yql_endpoint = 'http://query.yahooapis.com/v1/public/yql?q=';
+    var yql_endpoint = 'https://query.yahooapis.com/v1/public/yql?q=';
     var url = yql_endpoint + encodeURIComponent('select * from xml where url in (' + suggest_urls + ')') + '&format=json&diagnostics=false';
     console.log(url);
 
