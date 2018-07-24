@@ -17,64 +17,61 @@
       <h1>CV</h1>
       <p><span class="start" contenteditable="true">My name is</span> <span class="autocompleted"></span>.</p>
       <p><span class="start" contenteditable="true">I live in</span> <span class="autocompleted"></span>.</p>
-      <p><span class="start" contenteditable="true">My phone number is</span><span class="autocompleted"></span>.</p>
-      <p><span class="start" contenteditable="true">My email is</span><span class="autocompleted"></span>.</p>
+      <p><span class="start" contenteditable="true">My phone number is</span> <span class="autocompleted"></span>.</p>
+      <p><span class="start" contenteditable="true">My email is</span> <span class="autocompleted"></span>.</p>
     </header>
 
     <h3>Personal information</h3>
-    <p>Date of birth: <span class="start" contenteditable="true">I was born</span><span class="autocompleted"></span>.</p>
-    <p>Marital status: <span class="start" contenteditable="true">I am married to</span><span class="autocompleted"></span>.</p>
-    <p>Nationality: <span class="start" contenteditable="true">My country is</span><span class="autocompleted"></span>.</p>
-    <p>Languages: <span class="start" contenteditable="true">My language is</span><span class="autocompleted"></span>.</p>
-    <p>Sex: <span class="start" contenteditable="true">I identify as</span><span class="autocompleted"></span>.</p>
+    <p>Date of birth: <span class="start" contenteditable="true">I was born</span> <span class="autocompleted"></span>.</p>
+    <p>Marital status: <span class="start" contenteditable="true">I am married to</span> <span class="autocompleted"></span>.</p>
+    <p>Nationality: <span class="start" contenteditable="true">My country is</span> <span class="autocompleted"></span>.</p>
+    <p>Languages: <span class="start" contenteditable="true">My language is</span> <span class="autocompleted"></span>.</p>
+    <p>Sex: <span class="start" contenteditable="true">I identify as</span> <span class="autocompleted"></span>.</p>
 
     <h3>Profile</h3>
-    <p><span class="start" contenteditable="true">I am good at</span><span class="autocompleted"></span>, <span class="start" contenteditable="true">although I can</span><span class="autocompleted"></span></p>
+    <p><span class="start" contenteditable="true">I am good at</span> <span class="autocompleted"></span>, <span class="start" contenteditable="true">although I can</span> <span class="autocompleted"></span></p>
     <h4>Core Competencies</h4>
-    <p><span class="start" contenteditable="true">I believe that</span><span class="autocompleted"></span>.</p>
+    <p><span class="start" contenteditable="true">I believe that</span> <span class="autocompleted"></span>.</p>
     <h4>Professional Experience</h4>
-    <p><span class="start" contenteditable="true">I once</span><span class="autocompleted"></span>, <span class="start" contenteditable="true">but I am</span><span class="autocompleted"></span>.</p>
+    <p><span class="start" contenteditable="true">I once</span> <span class="autocompleted"></span>, <span class="start" contenteditable="true">but I am</span> <span class="autocompleted"></span>.</p>
     <h4>Professional Qualifications</h4>
-    <p><span class="start" contenteditable="true">I am trained in</span><span class="autocompleted"></span>, <span class="start" contenteditable="true">and I can</span><span class="autocompleted"></span>.</p>
+    <p><span class="start" contenteditable="true">I am trained in</span> <span class="autocompleted"></span>, <span class="start" contenteditable="true">and I can</span> <span class="autocompleted"> </span>.</p>
     <br>
-    <p>Please hire me. <span class="start" contenteditable="true">I need</span><span class="autocompleted"></span>, so <span class="start" contenteditable="true">I can buy</span><span class="autocompleted"></span>.</p>
+    <p>Please hire me. <span class="start" contenteditable="true">I need</span> <span class="autocompleted"></span>, so <span class="start" contenteditable="true">I can buy</span> <span class="autocompleted"></span>.</p>
     <br>
-    <p><span class="start" contenteditable="true">Thank you for</span><span class="autocompleted"></span>! <span class="start" contenteditable="true">I hope that</span><span class="autocompleted"></span>.</p>
+    <p><span class="start" contenteditable="true">Thank you for</span> <span class="autocompleted"></span>! <span class="start" contenteditable="true">I hope that</span> <span class="autocompleted"></span>.</p>
   </body>
   <script>
-    // https://stackoverflow.com/questions/5102878/google-suggest-api
     // https://twitter.com/TechnicallyRon/status/880379075235336192
     // http://asset-0.soupcdn.com/asset/13811/6388_0e91_520.jpeg
 
     var out;
+    //https://web.archive.org/web/20180611063656/https://shreyaschand.com/blog/2013/01/03/google-autocomplete-api/
+    //http://suggestqueries.google.com/complete/search?client=youtube&q=dog&jsonp=?
+    //http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20xml%20where%20url%20in%20%28%27http%3A%2F%2Fgoogle.com%2Fcomplete%2Fsearch%3Foutput%3Dtoolbar%26q%3Dchuck%2Bnorris%27%2C%27http%3A%2F%2Fgoogle.com%2Fcomplete%2Fsearch%3Foutput%3Dtoolbar%26q%3Dsteven%2Bseagal%27%29&format=json&diagnostics=false
+    //https://jsonp.afeld.me/
+    
+    var jsonp_endpoint = 'http://suggestqueries.google.com/complete/search?client=youtube&jsonp=?&q=';
 
-    //select * from xml where url in (
-    //  ‘http://google.com/complete/search?output=toolbar&q=chuck+norris’,
-    //  ‘http://google.com/complete/search?output=toolbar&q=steven+seagal’
-    //)
-
-    starts = $('.start').toArray().map(function(s){
-      var t = s.innerText.endsWith(' ') ? s.innerText : s.innerText + ' ';
-      return encodeURIComponent(t)
-    });
-
-    var language = 'en';
-    var api_endpoint = 'http://suggestqueries.google.com/complete/search?output=toolbar&hl=' + language + '&q=';
-    var suggest_urls = starts.map(function(q){ return "'" + api_endpoint + q + "'"; });
-
-    var yql_endpoint = 'http://query.yahooapis.com/v1/public/yql?q=';
-    var url = yql_endpoint + encodeURIComponent('select * from xml where url in (' + suggest_urls + ')') + '&format=json&diagnostics=false';
-    console.log(url);
-
-    var jqxhr = $.get( url, function(data) {
-      var suggestions = data.query.results.toplevel;
-      out = data;
-      $('.start').each(function(i, e){
-        var suggestion = suggestions[i].CompleteSuggestion[0]['suggestion']['data'];
-        var output = suggestion.toLowerCase().replace($(e).text().toLowerCase(), '');
-        $(e).next('.autocompleted').text(output);
+    function getSuggestion(query, $output) {
+      query = query.endsWith(' ') ? query : query + ' ';
+      var query_url = jsonp_endpoint + encodeURIComponent(query);
+      console.log(query_url);
+      $.getJSON(query_url, function(data) {
+        // ["My name is ", [["my name is earl", 0], ["my name is khan", 0], { "k": 1, "q": "f-mruM2i" }]
+        out = data;
+        var suggestions = data[1]
+        // ["my name is earl", 0]
+        var first = suggestions[1][0]
+        first = first.toLowerCase().replace(data[0].toLowerCase(), '');
+        $output.text(first);
       });
-      //console.log(suggestions);
+    }
+
+    $('.start').each(function (index, element) {
+      // element == this
+      var $element = $(element);
+      setTimeout(getSuggestion, index*500, $element.text(), $element.next('.autocompleted'))
     });
   </script>
 </html>
