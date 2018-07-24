@@ -51,7 +51,7 @@
     //http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20xml%20where%20url%20in%20%28%27http%3A%2F%2Fgoogle.com%2Fcomplete%2Fsearch%3Foutput%3Dtoolbar%26q%3Dchuck%2Bnorris%27%2C%27http%3A%2F%2Fgoogle.com%2Fcomplete%2Fsearch%3Foutput%3Dtoolbar%26q%3Dsteven%2Bseagal%27%29&format=json&diagnostics=false
     //https://jsonp.afeld.me/
     
-    var jsonp_endpoint = 'http://suggestqueries.google.com/complete/search?client=youtube&jsonp=?&q=';
+    var jsonp_endpoint = 'https://suggestqueries.google.com/complete/search?client=youtube&jsonp=?&q=';
 
     function getSuggestion(query, $output) {
       query = query.endsWith(' ') ? query : query + ' ';
